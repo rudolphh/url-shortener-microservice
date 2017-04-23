@@ -53,6 +53,9 @@ app.post('/api/shorturl/new', function(req, res) {
       // if the domain isn't valid
       if(err) { res.json({ error: 'invalid URL' }); }
       else {
+
+        // TODO add short_url key returned from mongoose save
+        
         res.json({ original_url: url });
       }
     });
@@ -62,6 +65,17 @@ app.post('/api/shorturl/new', function(req, res) {
 
 });
 
+app.get('/api/shorturl/:index', function(req, res){
+
+  // TODO use req.params.index with our mongoose instance and find by index key
+
+  // if found
+    // res.redirect('https://www.google.com'); obv with original_url value
+
+  // else if no short_url is found for the given index
+    // res.json({ error: 'No short url found for given index' });
+
+});
 
 var listener = app.listen(port, function () {
   console.log('Node.js listening on ' + listener.address().port );
