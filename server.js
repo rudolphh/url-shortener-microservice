@@ -36,8 +36,18 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+const dns = require('dns');
+
 // our url shortener API endpoint
-//app.get()
+app.post('/api/shorturl/new', function(req, res) {
+
+  dns.lookup(req.body.url, function(err, addr, fam) {
+    if(err) { res.json({ error: 'invalid URL' }); }
+    else {
+      res.json({ original_url: req.body.url });
+    }
+  });
+});
 
 
 var listener = app.listen(port, function () {
