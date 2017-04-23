@@ -57,7 +57,7 @@ app.post('/api/shorturl/new', function(req, res) {
       }
     });
   } else { // if not, fail
-    res.json({ error: 'invalid URL', protocol: 'none' });
+    res.json({ error: 'invalid URL' });
   }
 
 });
