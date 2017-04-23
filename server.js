@@ -41,12 +41,25 @@ const dns = require('dns');
 // our url shortener API endpoint
 app.post('/api/shorturl/new', function(req, res) {
 
-  dns.lookup(req.body.url, function(err, addr, fam) {
-    if(err) { res.json({ error: 'invalid URL' }); }
-    else {
-      res.json({ original_url: req.body.url });
-    }
-  });
+  var protocolReg = /(^\w+:|^)\/\//;
+  var url = req.body.url;
+
+  // if we have a protocol great
+  if(url.match(protocolReg)){
+    var result = url.replace(protocolReg, '');// strip the protocol first
+    var domain = result.split('/')[0];// remove any routes
+
+    dns.lookup(domain, function(err, addr, fam) {
+      // if the domain isn't valid
+      if(err) { res.json({ error: 'invalid URL' }); }
+      else {
+        res.json({ original_url: url });
+      }
+    });
+  } else { // if not, fail
+    res.json({ error: 'invalid URL', protocol: 'none' });
+  }
+
 });
 
 
