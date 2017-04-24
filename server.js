@@ -107,16 +107,21 @@ app.post('/api/shorturl/new', function(req, res) {
 
 });
 
+// our GET api endpoint for shorturl index
 app.get('/api/shorturl/:index', function(req, res){
 
-  // TODO use req.params.index with our mongoose instance and find by index key
-
-  // if found
-    // res.redirect('https://www.google.com'); obv with original_url value
-
-  // else if no short_url is found for the given index
-    // res.json({ error: 'No short url found for given index' });
-
+  if(parseInt(req.params.index)){ // just validate that we get an integer
+    URL.findOne({ short_url: req.params.index }, function(err, urlDoc) {
+      if(err) console.log(err);
+      else {
+        if(urlDoc){ // found, then take us there, yay
+          res.redirect(urlDoc.original_url);
+        } else { // what you talkin' bout willis?
+          res.json({ error: 'No short url found for given index' });
+        }
+      }
+    });
+  } else { res.json({ error: '/shorturl requires a number parameter' }); }
 });
 
 var listener = app.listen(port, function () {
