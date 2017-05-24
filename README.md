@@ -1,4 +1,4 @@
-# API Project: URL Shortener Microservice for FCC
+# API Project: URL Shortener Microservice
 
 
 ### User Stories
